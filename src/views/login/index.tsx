@@ -38,8 +38,14 @@ const Login = () => {
         },
     })
 
+    function handleLogin() {
+        form.reset()
+        setOpen(true)
+    }
+
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log('%c [ values ]-40', 'font-size:13px; background:pink; color:#bf2c9f;', values)
+        setOpen(false)
     }
     return (
         <div className="w-[100vw] h-[100vh] bg-secondary flex justify-center items-center">
@@ -91,7 +97,7 @@ const Login = () => {
                     </div>
                 </DialogContent>
             </Dialog>
-            <Button onClick={() => setOpen(true)}>去登录</Button>
+            <Button onClick={handleLogin}>去登录</Button>
         </div>
     );
 }
