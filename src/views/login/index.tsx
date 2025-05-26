@@ -10,17 +10,21 @@ import {
 import { Input } from "@/components/ui/input"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import { useNavigate } from "react-router";
 import { z } from "zod"
 
 import LoginImg from "@/assets/login.png"
 import { service } from "@/api";
 import { useMutation, useMutationState } from "@tanstack/react-query"
+import { dialog } from "@/utils";
 
 
 const mutationKey = ['loginData']
+let timer;
 const Login = () => {
+    const [codeCd, setCodeCd] = useState(false)
+    const [long, setLong] = useState(60)
     const mutation = useMutation({ mutationFn: service.auth.login })
     const data = useMutationState({
         filters: { mutationKey },
@@ -54,6 +58,43 @@ const Login = () => {
         console.log('登录返回：', data)
         navigate('/')
     }
+
+
+    function handleCaptcha() {
+        // 校验手机号是否存在，格式是否正确
+        const phone = form.getValues('phone')
+        if (!phone || !phone.match(/^1[3456789]\d{9}$/)) {
+            dialog.toast('手机号格式错误')
+            return
+        }
+        captcha(phone)
+        setCodeCd(true)
+        timer = setInterval(() => {
+            if (long > 0) {
+                setLong(long - 1)
+            } else {
+                setLong(60)
+                setCodeCd(false)
+                clearInterval(timer)
+            }
+        }, 1000)
+    }
+
+    async function captcha(phone: string) {
+        try {
+            await service.auth.code({ phone })
+            dialog.toast('验证码已发送，请注意查收')
+        }
+        catch (err: unknown) {
+            console.log('%c [ err ]-89', 'font-size:13px; background:pink; color:#bf2c9f;', err)
+            dialog.toast('验证码发送失败')
+        }
+    }
+
+    function handleBackHome() {
+        navigate('/')
+    }
+
     return (
         <div className="w-[100vw] h-[100vh] bg-secondary flex justify-center items-center">
             <div className="min-w-216 h-130">
@@ -62,7 +103,7 @@ const Login = () => {
                         <img src={LoginImg} alt="login" className="w-89 h-72.5" />
                     </div>
                     <div className="flex-1 w-full h-full mt-20 flex flex-col gap-8">
-                        <div className="font-semibold text-2xl">登录 OI Practice</div>
+                        <div className="font-semibold text-2xl">登录 Practix</div>
                         <div>
                             {mutation.error && (
                                 <h5 onClick={() => mutation.reset()}>{mutation.error?.message}</h5>
@@ -96,9 +137,10 @@ const Login = () => {
                                                 )}
                                             />
                                         </div>
-                                        <Button>验证码</Button>
+                                        <Button onClick={handleCaptcha} disabled={codeCd}>验证码{codeCd && <span>({long})</span>}</Button>
                                     </div>
-                                    <Button type="submit" variant="default" className="bg-primary w-80 py-6 text-xl rounded-full">登录</Button>
+                                    <Button type="submit" variant="default" className="bg-primary w-80 py-4.6 text-xl rounded-full mb-4!">登录</Button>
+                                    <Button type="button" variant="outline" className="w-80 py-4.5 text-xl rounded-full" onClick={handleBackHome}>返回首页</Button>
                                 </form>
                             </Form>
                         </div>
