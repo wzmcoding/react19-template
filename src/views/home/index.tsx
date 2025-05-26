@@ -1,8 +1,20 @@
+import NavBar from "@/components/NavBar";
+import User from "@/components/User";
 
 const Home = () => {
     return (
-        <div>
-            Home
+        <div className="h-full flex items-stretch bg-background">
+            <NavBar />
+            <div className="h-full flex-1">
+                <div className="h-full w-full">
+                    <div className="h-full flex gap-15">
+                        <div className="flex-1 pb-3 pl-25 pt-12">
+                            <div className="relative h-full w-full">content</div>
+                        </div>
+                        <User />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
