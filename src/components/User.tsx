@@ -1,23 +1,28 @@
 import imgUser from '@/assets/user.svg';
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const User = () => {
     return (
         <div className="h-full w-90">
             <div className="flex justify-end pr-10 pt-2">
-                <Popover>
-                    <PopoverTrigger>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
                         <img className="h-15 w-15 border rounded-full cursor-pointer" src={imgUser} />
-                    </PopoverTrigger>
-                    <PopoverContent>
-                        <div className='cursor-pointer hover:bg-primary/20 hover:text-primary p-2'>退出登录</div>
-                    </PopoverContent>
-                </Popover>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56">
+                        <DropdownMenuGroup>
+                            <DropdownMenuItem className='cursor-pointer hover:bg-primary/20! hover:text-primary!'>
+                                <div>退出登录</div>
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </div>
     );
