@@ -6,8 +6,13 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useNavigate } from 'react-router';
 
 const User = () => {
+    const navigate = useNavigate();
+    function handleLogout() {
+        navigate('/login');
+    }
     return (
         <div className="h-full w-90">
             <div className="flex justify-end pr-10 pt-2">
@@ -18,7 +23,7 @@ const User = () => {
                     <DropdownMenuContent className="w-56">
                         <DropdownMenuGroup>
                             <DropdownMenuItem className='cursor-pointer hover:bg-primary/20! hover:text-primary!'>
-                                <div>退出登录</div>
+                                <div onClick={handleLogout}>退出登录</div>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                     </DropdownMenuContent>

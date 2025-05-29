@@ -5,6 +5,7 @@ import {
     FormControl,
     FormField,
     FormItem,
+    FormLabel,
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -96,15 +97,23 @@ const Login = () => {
     }
 
     return (
-        <div className="w-[100vw] h-[100vh] bg-secondary flex justify-center items-center">
-            <div className="min-w-216 h-130">
-                <div className="w-200 h-120 flex items-center justify-around flex-row p-14 gap-3">
-                    <div className="flex-1">
-                        <img src={LoginImg} alt="login" className="w-89 h-72.5" />
+        <div className="w-[100vw] h-[100vh] flex justify-center items-center bg-primary/8">
+            <div className="">
+                <div className="flex items-center justify-around flex-row p-14">
+                    <div className="h-147.5 w-144 ">
+                        <img src={LoginImg} alt="login" className="h-147.5 w-144 object-cover" />
                     </div>
-                    <div className="flex-1 w-full h-full mt-20 flex flex-col gap-8">
-                        <div className="font-semibold text-2xl">登录 Practix</div>
-                        <div>
+                    <div className="px-14 h-147.5 w-144 flex pt-10 flex-col gap-8 bg-background">
+                        <div className="mt-3 flex items-center justify-center gap-3">
+                            <img src="/logo.svg" alt="logo" className="h-10 w-10 object-cover" />
+                            <div className="text-6 text-primary font-semibold">
+                                Practix
+                            </div>
+                        </div>
+                        <div className="text-center text-3xl font-semibold">
+                            Welcome back！
+                        </div>
+                        <div className="px-16">
                             {mutation.error && (
                                 <h5 onClick={() => mutation.reset()}>{mutation.error?.message}</h5>
                             )}
@@ -115,32 +124,34 @@ const Login = () => {
                                         name="phone"
                                         render={({ field }) => (
                                             <FormItem>
+                                                <FormLabel>手机号</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="请输入手机号" {...field} />
+                                                    <Input className="h-11" placeholder="请输入手机号" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
                                     />
-                                    <div className="flex items-start justify-between gap-3">
+                                    <div className="flex items-end justify-between gap-2">
                                         <div className="flex-1">
                                             <FormField
                                                 control={form.control}
                                                 name="code"
                                                 render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormControl>
-                                                            <Input placeholder="请输入验证码" {...field} />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
+                                                        <FormItem>
+                                                            <FormLabel>验证码</FormLabel>
+                                                            <FormControl>
+                                                                <Input className="h-11" placeholder="请输入验证码" {...field} />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
                                                 )}
                                             />
                                         </div>
-                                        <Button onClick={handleCaptcha} disabled={codeCd}>验证码{codeCd && <span>({long})</span>}</Button>
+                                        <Button className="h-11" onClick={handleCaptcha} disabled={codeCd}>验证码{codeCd && <span>({long})</span>}</Button>
                                     </div>
-                                    <Button type="submit" variant="default" className="bg-primary w-80 py-4.6 text-xl rounded-full mb-4!">登录</Button>
-                                    <Button type="button" variant="outline" className="w-80 py-4.5 text-xl rounded-full" onClick={handleBackHome}>返回首页</Button>
+                                    <Button type="submit" variant="default" className="bg-primary w-full py-4.6 text-xl rounded-full mb-4!">登录</Button>
+                                    <Button type="button" variant="outline" className="w-full py-4.5 text-xl rounded-full" onClick={handleBackHome}>返回首页</Button>
                                 </form>
                             </Form>
                         </div>
