@@ -19,6 +19,7 @@ import LoginImg from "@/assets/login.png"
 import { service } from "@/api";
 import { useMutation } from "@tanstack/react-query"
 import { dialog } from "@/utils";
+import { useUserStore } from "@/stores/user";
 
 
 let timer;
@@ -27,6 +28,7 @@ const Login = () => {
     const [long, setLong] = useState(60)
     const mutation = useMutation({ mutationFn: service.auth.login })
     const navigate = useNavigate()
+    const { setToken, setUser } = useUserStore()
 
     const formSchema = z.object({
         phone: z.string().nonempty({
@@ -49,6 +51,8 @@ const Login = () => {
         try {
             const data = await mutation.mutateAsync(values)
             console.log('登录返回：', data.authorization, data.user)
+            setToken(data.authorization)
+            setUser(data.user)
             navigate('/')
         } catch (error) {
             console.log('%c [ error ]-53', 'font-size:13px; background:pink; color:#bf2c9f;', error)

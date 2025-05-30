@@ -6,19 +6,25 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useUserStore } from '@/stores/user';
 import { useNavigate } from 'react-router';
 
 const User = () => {
     const navigate = useNavigate();
+    const { user, reset } = useUserStore();
     function handleLogout() {
         navigate('/login');
+        reset();
     }
     return (
         <div className="h-full w-90">
             <div className="flex justify-end pr-10 pt-2">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <img className="h-15 w-15 border rounded-full cursor-pointer" src={imgUser} />
+                        <div className='flex items-center gap-2'>
+                                <img className="h-15 w-15 border rounded-full cursor-pointer" src={imgUser} />
+                                <div>{ user.nickname }</div>
+                        </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56">
                         <DropdownMenuGroup>
