@@ -187,10 +187,7 @@ class API {
             else {
               const e = new APIError(result)
               if (config.message?.error?.enable) {
-                showError({
-                  ...config.message?.error,
-                  text: e.message,
-                })
+                dialog.toast(e.message)
               }
               reject(e)
             }
@@ -210,10 +207,7 @@ class API {
           }
           else {
             if (config.message?.error?.enable) {
-              showError({
-                ...config.message?.error,
-                text: e.response?.data?.errMsg || e.message,
-              })
+              dialog.toast(e.response?.data?.errMsg || e.message)
             }
           }
         })
@@ -515,10 +509,7 @@ class API {
         }
         catch (e: any) {
           if (config.message?.error?.enable) {
-            showError({
-              ...config.message?.error,
-              text: e.message,
-            })
+            dialog.toast(e.message)
           }
           reject(e)
         }
@@ -531,18 +522,12 @@ class API {
             const result = JSON.parse(res.data)
             error = new APIError(result)
             if (config.message?.error?.enable) {
-              showError({
-                ...config.message?.error,
-                text: error.message,
-              })
+              dialog.toast(error.message)
             }
           }
           catch (e) {
             if (config.message?.error?.enable) {
-              showError({
-                ...config.message?.error,
-                text: '请求失败',
-              })
+              dialog.toast('请求失败')
             }
           }
           reject(error)
@@ -555,6 +540,7 @@ class API {
             error = new APIError(result)
           }
           catch (e) {
+            console.log('%c [ e ]-543', 'font-size:13px; background:pink; color:#bf2c9f;', e)
           }
           if (config.onError) {
             config.onError(error)

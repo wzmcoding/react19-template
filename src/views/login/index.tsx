@@ -11,26 +11,21 @@ import {
 import { Input } from "@/components/ui/input"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { set, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router";
 import { z } from "zod"
 
 import LoginImg from "@/assets/login.png"
 import { service } from "@/api";
-import { useMutation, useMutationState } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import { dialog } from "@/utils";
 
 
-const mutationKey = ['loginData']
 let timer;
 const Login = () => {
     const [codeCd, setCodeCd] = useState(false)
     const [long, setLong] = useState(60)
     const mutation = useMutation({ mutationFn: service.auth.login })
-    const data = useMutationState({
-        filters: { mutationKey },
-        select: (mutation) => mutation.state.data,
-    })
     const navigate = useNavigate()
 
     const formSchema = z.object({
@@ -50,14 +45,14 @@ const Login = () => {
         },
     })
 
-    function handleLogin() {
-        form.reset()
-    }
-
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        const data = await mutation.mutateAsync(values)
-        console.log('登录返回：', data)
-        navigate('/')
+        try {
+            const data = await mutation.mutateAsync(values)
+            console.log('登录返回：', data.authorization, data.user)
+            navigate('/')
+        } catch (error) {
+            console.log('%c [ error ]-53', 'font-size:13px; background:pink; color:#bf2c9f;', error)
+        }
     }
 
 
