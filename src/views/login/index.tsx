@@ -50,12 +50,11 @@ const Login = () => {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             const data = await mutation.mutateAsync(values)
-            console.log('登录返回：', data.authorization, data.user)
             setToken(data.authorization)
             setUser(data.user)
             navigate('/')
         } catch (error) {
-            console.log('%c [ error ]-53', 'font-size:13px; background:pink; color:#bf2c9f;', error)
+            console.log(error)
         }
     }
 
@@ -71,7 +70,7 @@ const Login = () => {
         setCodeCd(true)
         timer = setInterval(() => {
             if (long > 0) {
-                setLong(long - 1)
+                setLong((prev) => prev - 1)
             } else {
                 setLong(60)
                 setCodeCd(false)
@@ -86,8 +85,11 @@ const Login = () => {
             dialog.toast('验证码已发送，请注意查收')
         }
         catch (err: unknown) {
-            console.log('%c [ err ]-89', 'font-size:13px; background:pink; color:#bf2c9f;', err)
+            console.log(err)
             dialog.toast('验证码发送失败')
+            setLong(60)
+            setCodeCd(false)
+            clearInterval(timer)
         }
     }
 
@@ -137,17 +139,19 @@ const Login = () => {
                                                 control={form.control}
                                                 name="code"
                                                 render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel>验证码</FormLabel>
+                                                    <FormItem>
+                                                        <FormLabel>验证码</FormLabel>
+                                                        <div className="flex items-center justify-between gap-2">
                                                             <FormControl>
                                                                 <Input className="h-11" placeholder="请输入验证码" {...field} />
                                                             </FormControl>
-                                                            <FormMessage />
-                                                        </FormItem>
+                                                            <Button className="h-11" onClick={handleCaptcha} disabled={codeCd}>验证码{codeCd && <span>({long})</span>}</Button>
+                                                        </div>
+                                                        <FormMessage />
+                                                    </FormItem>
                                                 )}
                                             />
                                         </div>
-                                        <Button className="h-11" onClick={handleCaptcha} disabled={codeCd}>验证码{codeCd && <span>({long})</span>}</Button>
                                     </div>
                                     <Button type="submit" variant="default" className="bg-primary w-full py-4.6 text-xl rounded-full mb-4!">登录</Button>
                                     <Button type="button" variant="outline" className="w-full py-4.5 text-xl rounded-full" onClick={handleBackHome}>返回首页</Button>

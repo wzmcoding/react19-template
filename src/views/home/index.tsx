@@ -13,7 +13,7 @@ const Home = () => {
 
     useEffect(() => {
         init();
-    });
+    }, []);
     return (
         <div className="h-full flex items-stretch bg-background">
             <NavBar />
