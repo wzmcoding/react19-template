@@ -1,7 +1,19 @@
 import NavBar from "@/components/NavBar";
 import User from "@/components/User";
+import { useUserStore } from "@/stores/user";
+import { useEffect } from "react";
 
 const Home = () => {
+    const { setToken, setUser, token, user } = useUserStore();
+
+    function init() {
+        setToken(token);
+        setUser(user);
+    }
+
+    useEffect(() => {
+        init();
+    });
     return (
         <div className="h-full flex items-stretch bg-background">
             <NavBar />

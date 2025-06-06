@@ -8,7 +8,7 @@ type State = {
 
 type Actions = {
     setToken: (token: string) => void
-    setUser: (user: UserInfo) => void
+    setUser: (user: Partial<UserInfo>) => void
     reset: () => void
 }
 
@@ -23,7 +23,7 @@ export const useUserStore = create<State & Actions>()(persist((set) => ({
     token: '',
     user: {},
     setToken: (token: string) => set(() => ({ token })),
-    setUser: (user: UserInfo) => set(() => ({ user })),
+    setUser: (user: Partial<UserInfo>) => set(() => ({ user })),
     reset: () => set(() => ({ token: '', user: {} })),
 }), {
     name: 'user-storage',
