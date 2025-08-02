@@ -1,5 +1,4 @@
 import NavBar from "@/components/NavBar";
-import User from "@/components/User";
 import { useUserStore } from "@/stores/user";
 import { useEffect } from "react";
 
@@ -23,7 +22,7 @@ const Home = () => {
                         <div className="flex-1 pb-3 pl-25 pt-12">
                             <div className="relative h-full w-full">content</div>
                         </div>
-                        <User />
+                        <div>知识点列表</div>
                     </div>
                 </div>
             </div>

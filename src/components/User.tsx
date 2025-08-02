@@ -17,13 +17,13 @@ const User = () => {
         reset();
     }
     return (
-        <div className="h-full w-90">
+        <div className="h-full w-full flex items-end mb-3">
             <div className="flex justify-end pr-10 pt-2">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <div className='flex items-center gap-2'>
-                                <img className="h-15 w-15 border rounded-full cursor-pointer" src={imgUser} />
-                                <div>{ user.nickname }</div>
+                        <div className='flex items-center gap-2 cursor-pointer'>
+                                <img className="h-15 w-15 border rounded-full" src={imgUser} />
+                                <div className='text-primary'>个人中心</div>
                         </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56">
